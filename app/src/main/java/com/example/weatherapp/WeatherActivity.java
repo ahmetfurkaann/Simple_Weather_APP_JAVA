@@ -16,6 +16,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView cityName, currentTemperature, feelsLike, highestTemperature, lowestTemperature, humidity, wind, seaLevel, coordinates, weatherDescription;
     private String cityID, apiKey;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +33,10 @@ public class WeatherActivity extends AppCompatActivity {
         coordinates = findViewById(R.id.coordinates);
         weatherDescription = findViewById(R.id.weatherDescription);
 
-        // Yeni bir cityID alıp almadığınızı kontrol et
         cityID = getIntent().getStringExtra("cityID");
         apiKey = "fe6bc44b49bcd11d908d81cb9d34eb7b";
 
         if (cityID != null) {
-            // Yeni bir cityID alındı, hava durumu bilgisini güncelleyin
             String urlString = "https://api.openweathermap.org/data/2.5/weather?APPID=" + apiKey + "&units=metric&id=" + cityID;
             new GetWeatherTask().execute(urlString);
         }
@@ -73,7 +72,6 @@ public class WeatherActivity extends AppCompatActivity {
 
                 Scanner inStream = new Scanner(conn.getInputStream());
 
-                // Process the stream and store it in StringBuilder
                 while (inStream.hasNextLine()) {
                     response += (inStream.nextLine());
                 }
@@ -108,7 +106,6 @@ public class WeatherActivity extends AppCompatActivity {
                 String humidityValue = mainObject.getString("humidity");
                 String windSpeed = windObject.getString("speed");
 
-                // Check if "sea_level" exists in the JSON object
                 String seaLevelValue;
                 if (mainObject.has("sea_level")) {
                     seaLevelValue = mainObject.getString("sea_level");
@@ -136,8 +133,7 @@ public class WeatherActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                // Log the error
-                Log.e("JSON Parsing Error", "Error: ", e);
+                Log.e("JSON Okuma Hatası", "Error: ", e);
             }
         }
 
